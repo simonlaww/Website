@@ -5,23 +5,22 @@ var methodOverride = require('method-override');
 
 var port = process.env.PORT || 3000;
 
-var routes = require('./public/js/routes');
+app.use(express.static(__dirname + '/public'));
 
-// app.use(express.static(path.join(__dirname, '../client')));
+var routes = require('./public/js/index.js');
 
 app.use('/', routes);
 
-// app.get('/', function(request, response) {
-// 	res.sendFile(__dirname + 'index.html');
-// });
+ // view engine setup
+app.set('views', './public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 app.use(bodyParser.json());
 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 app.use(methodOverride('X-HTTP-Method-Override'));
-
-app.use(express.static(__dirname + '/public'));
 
 app.listen(port);
 
